@@ -37,9 +37,9 @@ let config = {
 
 let $http = axios.create(config.axiosConfig)
 
-let sendPost = (url, payload, headers = null) => {
+let sendPatch = (url, payload, headers = null) => {
   return new Promise((resolve, reject) => {
-    $http.post(url, convertObjectToFormData(payload), headers)
+    $http.patch(url, convertObjectToFormData(payload), headers)
       .then((handleSuccess) => {
         if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
           reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
@@ -53,41 +53,9 @@ let sendPost = (url, payload, headers = null) => {
   })
 }
 
-let sendPostJSON = (url, payload, headers = null) => {
+let sendPatchJSON = (url, payload, headers = null) => {
   return new Promise((resolve, reject) => {
-    $http.post(url, payload)
-      .then((handleSuccess) => {
-        if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
-          reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
-        } else {
-          resolve(handleSuccess.data)
-        }
-      })
-      .catch((handleError) => {
-        reject(handleError)
-      })
-  })
-}
-
-let sendPut = (url, payload, headers = null) => {
-  return new Promise((resolve, reject) => {
-    $http.put(url, convertObjectToUrlData(payload), headers)
-      .then((handleSuccess) => {
-        if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
-          reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
-        } else {
-          resolve(handleSuccess.data)
-        }
-      })
-      .catch((handleError) => {
-        reject(handleError)
-      })
-  })
-}
-
-let sendPutJSON = (url, payload, headers = null) => {
-  return new Promise((resolve, reject) => {
-    $http.put(url, payload, headers)
+    $http.patch(url, payload, headers)
       .then((handleSuccess) => {
         if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
           reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
@@ -121,34 +89,13 @@ let sendGet = (url, headers = null) => {
   })
 }
 
-let sendDelete = (url, headers = null) => {
-  return new Promise((resolve, reject) => {
-    $http.delete(url, headers)
-      .then((handleSuccess) => {
-        if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
-          reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
-        } else {
-          resolve(handleSuccess.data)
-        }
-      })
-      .catch((handleError) => {
-        reject(handleError)
-      })
-  })
-}
-
 export default config
 
 export { config }
 
-export { sendPost }
-
-export { sendPostJSON }
-
 export { sendGet }
 
-export { sendPut }
+export { sendPatch }
 
-export { sendPutJSON }
+export { sendPatchJSON }
 
-export { sendDelete }

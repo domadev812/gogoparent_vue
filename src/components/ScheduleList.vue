@@ -4,18 +4,18 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th style="width: 10px;">Schedule Ride ID</th>
-          <th style="width: 20px;">Start Date</th>
-          <th style="width: 20px;">End Date</th>
-          <th style="width: 20px;">Type</th>
+          <th style="width: 20%;">Schedule Ride ID</th>
+          <th style="width: 30%;">Start Street</th>
+          <th style="width: 30%;">End Street</th>
+          <th style="width: 10%;">Type</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(schedule, index) in schedules" @click="showModal(index)">
-          <td>123456</td>
-          <td>123456</td>
-          <td>123456</td>
-          <td>Single</td>
+          <td>{{schedule.scheduledRideId}}</td>
+          <td>{{schedule.streetAddress1}}</td>
+          <td>{{schedule.streetAddress2}}</td>
+          <td>{{schedule.schedule_type === 0 ? 'Single' : 'Multi'}}</td>
         </tr>
       </tbody>
     </table>
@@ -178,7 +178,8 @@ export default {
         updatedAt: null,	
         emailedReminderAt: null
       },
-      schedules: []
+      schedules: [],
+      selectedInd: 0
     }
   },
   created() {
@@ -208,6 +209,7 @@ export default {
       this.$store.dispatch('fetchSchedule', {schedule_id: ind})  //TODO: ind should be id of schedule in real data
         .then((response) => {  
           this.schedule = response.schedule
+          this.selectedInd = ind
           this.$refs.myModalRef.show()
         }).catch((error) => {              
           console.log('Error', error)    
@@ -219,7 +221,15 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault();
-      console.log('Submit', this.schedule)
+      this.$store.dispatch('updateSchedule', {schedule: this.schedule, schedule_id: this.selectedInd})  //TODO: ind should be id of schedule in real data
+        .then((response) => {  
+          this.schedule = response.schedule
+          this.schedules[this.selectedInd] = this.schedule //TODO: Update later
+          this.$refs.myModalRef.hide()
+        }).catch((error) => {              
+          console.log('Error', error)    
+        }
+      )
     },
     onReset (evt) {
       console.log('Reset')

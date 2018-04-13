@@ -15,3 +15,10 @@ exports.getSchedule = function (req, res) {
 exports.getSchedules = function (req, res) {  
   sender.sendSuccessResponse(res, {schedules: datas.Datas});  //TODO: Update later
 };
+
+exports.updateSchedule = function (req, res, next) {  
+  let schedule_id = req.params.schedule_id;
+  const data = req.body;
+  // TODO: implement update schedule
+  sender.sendSuccessResponse(res, {schedule: data});  //TODO: Update later
+};
