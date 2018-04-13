@@ -36,8 +36,9 @@ let config = {
 }
 
 let $http = axios.create(config.axiosConfig)
+// set token if access token is exist
 if (localStorage.getItem('access_token')) {
-  $http.defaults.headers.common['token'] = localStorage.getItem('access_token')
+  $http.defaults.headers.common['access_token'] = localStorage.getItem('access_token')
 }
 
 let sendPatch = (url, payload, headers = null) => {

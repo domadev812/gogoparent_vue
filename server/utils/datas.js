@@ -1,4 +1,4 @@
-exports.Datas = [
+exports.Datas = [         // Test Data
   {
     "schedule_type": 0,
     "scheduledRideId": 18410,
@@ -93,4 +93,4 @@ exports.Datas = [
   }
 ]
 
-exports.token = "api_token"
+exports.access_token = "api_token"   //Test Token

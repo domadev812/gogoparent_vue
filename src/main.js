@@ -16,6 +16,7 @@ Vue.use(VueLocalStorage, options);
 
 Vue.config.productionTip = false
 
+import './assets/asset_file'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'

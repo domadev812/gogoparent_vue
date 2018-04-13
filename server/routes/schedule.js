@@ -17,4 +17,5 @@ router.get('/:schedule_id', function (req, res) {
 router.patch('/:schedule_id', function (req, res, next) {
   ScheduleController.updateSchedule(req, res, next);
 });
+
 module.exports = router;

@@ -188,13 +188,14 @@ export default {
   methods: {
     getToken () {
       this.$store.dispatch('fetchToken', null)
-        .then((response) => {          
+        .then((response) => {       
           this.fetchSchedules()                               
         }).catch((error) => {              
           console.log('Error', error)    
         }
       )
     },
+
     fetchSchedules () {
       this.$store.dispatch('fetchSchedules')
         .then((response) => {  
@@ -205,6 +206,7 @@ export default {
         }
       )
     },
+
     showModal (ind) {
       //TODO: This can be implemented without calling API, Schedules has all schedules now.
       this.$store.dispatch('fetchSchedule', {schedule_id: ind})  //TODO: ind should be id of schedule in real data
@@ -217,9 +219,11 @@ export default {
         }
       )      
     },
+
     hideModal () {
       this.$refs.myModalRef.hide()
     },
+
     onSubmit (evt) {
       evt.preventDefault();
       this.$store.dispatch('updateSchedule', {schedule: this.schedule, schedule_id: this.selectedInd})  //TODO: ind should be id of schedule in real data
@@ -232,76 +236,11 @@ export default {
         }
       )
     },
+    
     onReset (evt) {
-      console.log('Reset')
     }
   }
 }
 </script>
 <style lang="scss">
-  .schedule-list {
-    width: 80%;
-    margin: auto;   
-
-    .margin-top-20 {
-      margin-top: 20px;
-    }
-
-    .modal-header {      
-      border: 0px;
-      
-      h5 {
-        width: 100%;
-      }
-    }
-
-    section {
-      text-align: left;
-      border-top: 1px solid #d0d0d0;    
-      padding: 10px 0 30px;  
-      select {
-        width: 50%;
-      }
-
-      label {
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-
-      h6 {
-        margin-top: 30px;
-        font-weight: bold;
-        
-        &:nth-child(1) {
-          margin-top: 0px;
-        }
-      }    
-      .comment {
-        font-size: 13px;
-      }
-
-      .sub-title {
-        font-size: 14px;
-        font-weight: bold;
-      }
-
-      .day {
-        margin: 10px 0 0 10px;
-      }
-
-      .flex-row {
-        display: flex;
-        width: 80%;        
-
-        div {
-          margin-right: 10px;
-        }
-      } 
-    }  
-    
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-    }       
-  }
 </style>
