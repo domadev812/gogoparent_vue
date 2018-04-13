@@ -9,9 +9,9 @@ exports.getSchedule = function (req, res) {
       sender.sendFailureResponse(res, "Schedule ID Undefined");
       return;
   }
-  sender.sendSuccessResponse(res, true, "Success", datas.Datas[schedule_id - 1]);  //TODO: Update later
+  sender.sendSuccessResponse(res, {schedule: datas.Datas[schedule_id]});  //TODO: Update later
 };
 
 exports.getSchedules = function (req, res) {  
-  sender.sendSuccessResponse(res, true, "Success", datas.Datas);  //TODO: Update later
+  sender.sendSuccessResponse(res, {schedules: datas.Datas});  //TODO: Update later
 };

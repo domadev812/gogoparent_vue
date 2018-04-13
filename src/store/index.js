@@ -10,16 +10,8 @@ Vue.prototype.$jQuery = jQuery
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
-  alert: {
-    showAlert: false,
-    alertClass: 'success',
-    alertIconClass: 'icon fa fa-check',
-    headerText: 'Alert!',
-    content: 'Test content'
-  },
-  loading: 'none',  
-  loadingText: 'Loading...',
-  records: []
+  records: [],
+  token: null
 }
 
 export default new Vuex.Store({

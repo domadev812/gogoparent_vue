@@ -11,19 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr @click="showModal">
-          <td>123456</td>
-          <td>123456</td>
-          <td>123456</td>
-          <td>Single</td>
-        </tr>
-        <tr>
-          <td>123456</td>
-          <td>123456</td>
-          <td>123456</td>
-          <td>Multiple</td>
-        </tr>
-        <tr>
+        <tr v-for="(schedule, index) in schedules" @click="showModal(index)">
           <td>123456</td>
           <td>123456</td>
           <td>123456</td>
@@ -138,6 +126,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'ScheduleList',
   data () {
@@ -187,12 +177,42 @@ export default {
         timeStamp: null,	
         updatedAt: null,	
         emailedReminderAt: null
-      }
+      },
+      schedules: []
     }
   },
+  created() {
+    this.getToken();    
+  },
   methods: {
-    showModal () {
-      this.$refs.myModalRef.show()
+    getToken () {
+      this.$store.dispatch('fetchToken', null)
+        .then((response) => {  
+          this.fetchSchedules()                                   
+        }).catch((error) => {              
+          console.log('Error', error)    
+        }
+      )
+    },
+    fetchSchedules () {
+      this.$store.dispatch('fetchSchedules', null)
+        .then((response) => {  
+          this.schedules = response.schedules.map(schedule => schedule)
+        }).catch((error) => {              
+          console.log('Error', error)    
+        }
+      )
+    },
+    showModal (ind) {
+      //TODO: This can be implemented without calling API, Schedules has all schedules now.
+      this.$store.dispatch('fetchSchedule', {schedule_id: ind})  //TODO: ind should be id of schedule in real data
+        .then((response) => {  
+          this.schedule = response.schedule
+          this.$refs.myModalRef.show()
+        }).catch((error) => {              
+          console.log('Error', error)    
+        }
+      )      
     },
     hideModal () {
       this.$refs.myModalRef.hide()

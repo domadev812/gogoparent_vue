@@ -1,7 +1,7 @@
 import axios from 'axios'
 import toNumber from 'lodash/toNumber'
 
-let baseUrl = 'http://localhost:8080/'
+let baseUrl = 'http://localhost:8080/api'
 
 let convertObjectToFormData = (items) => {
   const formData = new FormData()
@@ -101,10 +101,8 @@ let sendPutJSON = (url, payload, headers = null) => {
   })
 }
 
-let sendGet = (url, payload, headers = null, sort = null) => {
+let sendGet = (url, headers = null) => {
   let pageCount = null
-  if (sort !== null) {    
-  }
   return new Promise((resolve, reject) => {
     $http.get(url, headers)
       .then((handleSuccess) => {
@@ -113,40 +111,8 @@ let sendGet = (url, payload, headers = null, sort = null) => {
         let urlString = (url.origin + url.pathname)
         if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
           reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
-        } else {
-          let items = {}
-          items['pagination'] = {}
-          if (handleSuccess.headers.hasOwnProperty('x-pagination-total-count')) {
-            items['total'] = toNumber(handleSuccess.headers['x-pagination-total-count'])
-            items['pagination']['total'] = toNumber(handleSuccess.headers['x-pagination-total-count'])
-          }
-          if (handleSuccess.headers.hasOwnProperty('x-pagination-per-page')) {
-            items['perPage'] = toNumber(handleSuccess.headers['x-pagination-per-page'])
-            items['pagination']['per_page'] = toNumber(handleSuccess.headers['x-pagination-per-page'])
-            items['pagination']['first_page_url'] = urlString + url.search + '&page=1'
-          }
-          if (handleSuccess.headers.hasOwnProperty('x-pagination-page-count')) {
-            pageCount = toNumber(handleSuccess.headers['x-pagination-page-count'])
-            items['pageCount'] = pageCount
-            items['pagination']['last_page'] = pageCount
-            items['pagination']['last_page_url'] = urlString + url.search + '&page=' + pageCount
-          }
-          if (handleSuccess.headers.hasOwnProperty('x-pagination-current-page')) {
-            let currentPage = toNumber(handleSuccess.headers['x-pagination-current-page'])
-            items['currentPage'] = currentPage
-            items['pagination']['current_page'] = currentPage
-            if ((currentPage < pageCount) && (currentPage <= 1) && (pageCount > 1)) {
-              items['pagination']['next_page_url'] = (urlString + url.search) + ('&page=' + (++currentPage))
-              items['pagination']['prev_page_url'] = null
-            }
-            if ((currentPage > 1) && (currentPage <= pageCount) && (pageCount > 1)) {
-              items['pagination']['prev_page_url'] = (urlString + url.search) + ('&page=' + (--currentPage))
-            }
-            items['items'] = handleSuccess.data
-            resolve(items)
-          } else {
-            resolve(handleSuccess.data)
-          }
+        } else {          
+          resolve(handleSuccess.data)
         }
       })
       .catch((handleError) => {
