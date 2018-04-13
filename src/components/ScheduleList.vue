@@ -188,19 +188,20 @@ export default {
   methods: {
     getToken () {
       this.$store.dispatch('fetchToken', null)
-        .then((response) => {  
-          this.fetchSchedules()                                   
+        .then((response) => {          
+          this.fetchSchedules()                               
         }).catch((error) => {              
           console.log('Error', error)    
         }
       )
     },
     fetchSchedules () {
-      this.$store.dispatch('fetchSchedules', null)
+      this.$store.dispatch('fetchSchedules')
         .then((response) => {  
           this.schedules = response.schedules.map(schedule => schedule)
-        }).catch((error) => {              
-          console.log('Error', error)    
+        }).catch((error) => {        
+          if (error.response.status === 401 || error.response.status === 402)      
+            console.log('Token Error')
         }
       )
     },

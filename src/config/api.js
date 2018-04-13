@@ -36,24 +36,11 @@ let config = {
 }
 
 let $http = axios.create(config.axiosConfig)
-
-let sendPatch = (url, payload, headers = null) => {
-  return new Promise((resolve, reject) => {
-    $http.patch(url, convertObjectToFormData(payload), headers)
-      .then((handleSuccess) => {
-        if (handleSuccess.data.code === 200 || handleSuccess.data.hasOwnProperty('code')) {
-          reject({message: handleSuccess.data.message, code: handleSuccess.data.code})
-        } else {
-          resolve(handleSuccess.data)
-        }
-      })
-      .catch((handleError) => {
-        reject(handleError)
-      })
-  })
+if (localStorage.getItem('access_token')) {
+  $http.defaults.headers.common['token'] = localStorage.getItem('access_token')
 }
 
-let sendPatchJSON = (url, payload, headers = null) => {
+let sendPatch = (url, payload, headers = null) => {
   return new Promise((resolve, reject) => {
     $http.patch(url, payload, headers)
       .then((handleSuccess) => {
@@ -70,7 +57,6 @@ let sendPatchJSON = (url, payload, headers = null) => {
 }
 
 let sendGet = (url, headers = null) => {
-  let pageCount = null
   return new Promise((resolve, reject) => {
     $http.get(url, headers)
       .then((handleSuccess) => {

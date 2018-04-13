@@ -1,4 +1,4 @@
-import { sendGet, sendPatch, sendPatchJSON } from '../config/api'
+import { sendGet, sendPatch } from '../config/api'
 
 let fetchToken = ({commit}) => {
   return new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ let fetchToken = ({commit}) => {
 
 let fetchSchedule = ({commit}, payload) => {
   return new Promise((resolve, reject) => {
-    sendGet('/schedule/' + payload.schedule_id, null)
+    sendGet('/schedule/' + payload.schedule_id)
       .then((response) => {
         resolve(response)
       })
@@ -27,7 +27,7 @@ let fetchSchedule = ({commit}, payload) => {
 
 let updateSchedule = ({commit}, payload) => {
   return new Promise((resolve, reject) => {
-    sendPatchJSON('/schedule/' + payload.schedule_id, payload.schedule, null)
+    sendPatch('/schedule/' + payload.schedule_id, payload.schedule)
       .then((response) => {
         resolve(response)
       })
@@ -37,9 +37,9 @@ let updateSchedule = ({commit}, payload) => {
   })
 }
 
-let fetchSchedules = ({commit}) => {
+let fetchSchedules = ({commit}, payload) => {
   return new Promise((resolve, reject) => {
-    sendGet('/schedule', null)
+    sendGet('/schedule')
       .then((response) => {
         resolve(response)
       })

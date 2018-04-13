@@ -4,9 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import VueLocalStorage from 'vue-ls'
 import VueMoment from 'vue-moment'
 
 Vue.use(VueMoment);
+let options = {
+  namespace: 'vuejs__'
+};
+ 
+Vue.use(VueLocalStorage, options);
+
 Vue.config.productionTip = false
 
 import BootstrapVue from 'bootstrap-vue'
