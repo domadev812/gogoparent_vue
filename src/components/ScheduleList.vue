@@ -52,11 +52,46 @@
               <option value = 'car'>Car</option>
             </select>
           </section>
+          <section class="single-ride" v-if="schedule.schedule_type === 0">
+            <h6>Single Ride</h6>
+            <div class = "flex-row margin-top-20">
+              <div>
+                <div class ="sub-title">Pickup Day*</div>
+                <b-form-input type="date" v-model="schedule.pickupDate" required></b-form-input>
+              </div>
+              <div>
+                <div class ="sub-title">Pickup Time*</div>
+                <b-form-input type="time" v-model="schedule.pickupTime" required></b-form-input>
+              </div>
+            </div>
+          </section>
+          <section class="multi-ride" v-else>
+            <h6>Repeated Ride</h6>
+            <div class ="sub-title margin-top-20">Pickup Time*</div>
+            <b-form-input type="time" style="width: 100px;" v-model="schedule.pickupTime" required></b-form-input>
+            <div class = "flex-row margin-top-20">
+              <div class ="sub-title">Repeated every:</div><input type="number" style="width: 40px;" v-model="schedule.repeatEveryXWeek" required>&nbsp;&nbsp;weeks
+            </div>
+            <div class ="sub-title">Repeated on:</div>
+            <input class="day" type = "checkbox" v-model="schedule.day0">&nbsp;Sunday</br>
+            <input class="day" type = "checkbox" v-model="schedule.day1">&nbsp;Monday</br>
+            <input class="day" type = "checkbox" v-model="schedule.day2">&nbsp;Tuesday</br>
+            <input class="day" type = "checkbox" v-model="schedule.day3">&nbsp;Wednesday</br>
+            <input class="day" type = "checkbox" v-model="schedule.day4">&nbsp;Thursday</br>
+            <input class="day" type = "checkbox" v-model="schedule.day5">&nbsp;Friday</br>
+            <input class="day" type = "checkbox" v-model="schedule.day6">&nbsp;Saturday</br>
+            <div class ="sub-title margin-top-20">Start On*</div>
+            <b-form-input type="date" style="width: 200px;" v-model="schedule.startDate" required></b-form-input>
+            <div class ="sub-title margin-top-20">Ends On*</div>
+            <input type="radio" v-model="schedule.endOn" value="never"><label>Never</label></br>
+            <input type="radio" v-model="schedule.endOn" value="occurrences"><label>After</label><input type = "number" v-model="schedule.endAfterXTimes" style="width: 40px;">&nbsp;occurrences
+            <div class="flex-row"><input type="radio" v-model="schedule.endOn" value="on"><label style="margin-bottom: 0;">On</label><b-form-input type="date" style="width: 200px;"></b-form-input></div>
+          </section>
           <section>
             <h6>Start Address*</h6>
             <div class ="sub-title">Street Address*</div>
             <input type = "text" v-model="schedule.streetAddress1" required>
-            <div class = "address">
+            <div class = "flex-row margin-top-20">
               <div>
                 <div class ="sub-title">City*</div>
                 <input type = "text" style="width:150px;" v-model="schedule.city1" required>
@@ -73,7 +108,7 @@
             <h6>End Address*</h6>
             <div class ="sub-title">Street Address*</div>
             <input type = "text" v-model="schedule.streetAddress2" required>
-            <div class = "address">
+            <div class = "flex-row margin-top-20">
               <div>
                 <div class ="sub-title">City*</div>
                 <input type = "text" style="width:150px;" v-model="schedule.city2" required>
@@ -108,6 +143,7 @@ export default {
   data () {
     return {
       schedule: {
+        schedule_type: 1,
         scheduledRideId: '',	
         callerId: '',	
         riderPhone: '',	
@@ -176,6 +212,10 @@ export default {
     width: 80%;
     margin: auto;   
 
+    .margin-top-20 {
+      margin-top: 20px;
+    }
+
     .modal-header {      
       border: 0px;
       
@@ -188,6 +228,14 @@ export default {
       text-align: left;
       border-top: 1px solid #d0d0d0;    
       padding: 10px 0 30px;  
+      select {
+        width: 50%;
+      }
+
+      label {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
 
       h6 {
         margin-top: 30px;
@@ -201,10 +249,18 @@ export default {
         font-size: 13px;
       }
 
-      .address {
+      .sub-title {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .day {
+        margin: 10px 0 0 10px;
+      }
+
+      .flex-row {
         display: flex;
-        width: 80%;
-        margin-top: 20px;
+        width: 80%;        
 
         div {
           margin-right: 10px;
